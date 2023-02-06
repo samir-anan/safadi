@@ -1,7 +1,12 @@
 @extends('layouts.dashboard')
 
+@section('breadcrumb')
+    @parent
+    <li class="breadcrumb-item active">Starter Page</li>
+@endsection
 
 @section('title', 'Start Page')
+
 
 @section('content')
     <div class="container-fluid">
@@ -66,3 +71,10 @@
     </div><!-- /.container-fluid -->
 @endsection
 
+@push('scripts')
+    <script src="{{ asset('dist/js/script.js') }}"></script>
+@endpush
+
+@push('styles')
+    <link rel="stylesheet" href="<?php echo asset('/dist/css/style.css') ?>">
+@endpush
