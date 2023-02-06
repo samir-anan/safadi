@@ -1,0 +1,7 @@
+php artisan generate:key
+php artisan config:cache    -> create application cache
+php artisan config:clear    -> clear application cache
+    - clear will delete cache directory => bootstrap/cache/config
+
+
+php artisan make:controller ControllerName
