@@ -5,3 +5,25 @@ php artisan config:clear    -> clear application cache
 
 
 php artisan make:controller ControllerName
+php artisan make:migration create_stores_table
+    - tables names in plural
+php artisan migrate
+    - php artisan migrate:rollback  -> run the command in down() function
+    - php artisan migrate:status    -> migrations status
+    - php artisan migrate:reset     -> delete all migrations
+    - php artisan migrate:refresh   -> rollback all migrations then migrate it
+    - php artisan migrate:fresh     ->  drop all tables then migrate it
+
+php artisan make:model ModelName
+    - models names in Capital Singular
+    - php artisan make:model ModelName -m       -> create migration file
+
+php artisan make:seeder UserSeeder
+    - php artisan db:seed                       -> run seeds in DatabaseSeeder Class in run() method
+Model properties
+    protected $table = 'stores';                ->  connect with assigned table name
+    protected $connection = 'mysql';            ->  from config/database
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    public $timestamps = true;
+
