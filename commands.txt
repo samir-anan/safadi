@@ -32,50 +32,9 @@ Model properties
 
 Blade Directives
     - @csrf = {{ csrf_field() }} = <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    - @method('delete') = <input type="hidden" name="_method" value="delete">
-    - @auth ... @endauth            -> if authenticated user   if(Auth::check())
+    - @auth ... @endauth            -> if authennticated user   if(Auth::check())
     - @guest ... @endguest          -> if guest user
 
 
 - middleware define in controller constructor or routes
 -  <input type="hidden" name="_token" value="{{ csrf_token() }}"> == {{ csrf_field() }} or @csrf
-
-
- Controllers
-
- Store Method
-    $request->name;
-    $request['name'];
-    $request->query('name');
-    $request->get('name');
-    $request->post('name');
-    $request->input('name');
-    $request->only(['name','parent_id']);
-    $request->except(['name','image']);
-    $request->all();
-
-    $category = new Category();
-    $category-> name = $request->post('name');
-    $category-> parent_id = $request->post('parent_id');
-    $category->save();
-
-    $category = new Category([
-       'name' => $request->post('name'),
-       'parent_id' => $request->input('parent_id'),
-       'description' => $request->description,
-    ]);
-    $category->save();
-    $category = new Category($request->all());
-    $category->save();
-
-    $request->merge([
-       'slug' => $request->name
-    ]);
-
-    $category = Category::create($request->all()); // use mass assignment must assign fillable properties
-    return redirect()->route('categories.index');
-    return Redirect::route('categories.index');
-
-
-
-
