@@ -27,3 +27,14 @@ Model properties
     public $incrementing = true;
     public $timestamps = true;
 
+ composer require laravel/breeze --dev
+
+
+Blade Directives
+    - @csrf = {{ csrf_field() }} = <input type="hidden" name="_token" value="{{ csrf_token() }}">
+    - @auth ... @endauth            -> if authennticated user   if(Auth::check())
+    - @guest ... @endguest          -> if guest user
+
+
+- middleware define in controller constructor or routes
+-  <input type="hidden" name="_token" value="{{ csrf_token() }}"> == {{ csrf_field() }} or @csrf
