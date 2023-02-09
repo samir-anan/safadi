@@ -169,15 +169,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Sidebar -->
         <div class="sidebar">
+            @auth
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">{{ $name }}</a>
+                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                    <form method="post" action="{{route('logout')}}">
+{{--                        <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
+{{--                        {{ csrf_field() }} --}}
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-primary">Logout</button>
+                    </form>
+{{--                    <a href="{{ route('logout') }}" >Logout</a>--}}
                 </div>
             </div>
+            @endauth
 
             <!-- SidebarSearch Form -->
             <div class="form-inline">
