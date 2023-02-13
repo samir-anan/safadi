@@ -10,12 +10,18 @@
 
 @section('content')
     <div class="mb-2">
-        <a href="{{ route('categories.create' ) }}" class="btn  btn-primary">create</a>
+        <a href="{{ route('dashboard.categories.create') }}" class="btn  btn-primary">create</a>
     </div>
 
     @if(session()->has('success'))
         <div class="alert alert-success">
             {{ \Illuminate\Support\Facades\Session::get('success') }}
+        </div>
+    @endif
+
+    @if(session('info'))
+        <div class="alert alert-info">
+            {{ session()->get('info') }}
         </div>
     @endif
 
@@ -40,10 +46,10 @@
                 <td>{{  $category->parent_id }} </td>
                 <td>{{  $category->created_at }} </td>
                 <td>
-                    <a href="{{ route('categories.edit',['category' => $category->id] ) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                    <a href="{{ route('dashboard.categories.edit',['category' => $category->id] ) }}" class="btn btn-sm btn-outline-success">Edit</a>
                 </td>
                 <td>
-                    <form method="post" action="{{ route('categories.destroy',$category->id) }}">
+                    <form method="post" action="{{ route('dashboard.categories.destroy',$category->id) }}">
                         @csrf
                         @method('delete')
                         <input type="hidden" name="_method" value="delete">
