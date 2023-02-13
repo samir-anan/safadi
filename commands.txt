@@ -38,3 +38,25 @@ Blade Directives
 
 - middleware define in controller constructor or routes
 -  <input type="hidden" name="_token" value="{{ csrf_token() }}"> == {{ csrf_field() }} or @csrf
+
+FileUpload:
+- storage/app       => default local disk path not public
+- storage/public    => default local disk path public
+- $request->merge add new value not in request, never update exist value
+
+- using store method => for crate random name
+
+     $data = $request->except('image');
+        if ($request->hasFile('image')){
+            $file = $request->file('image');
+           // $path = $file->store('uploads','public'); // store in "uploads" directory in default disk with random name
+            $path = $file->store('uploads',['disk' => 'public']); // other way
+            $data['image'] = $path;
+        }
+
+- using storeAs method => for create Custom name
+
+
+file systems :
+    storage_path('app')     => storage/app
+    public_path('uploads')  => public/uploads

@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <form action="{{ route('dashboard.categories.update', $category->id) }}" method="post">
+    <form action="{{ route('dashboard.categories.update', $category->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('put')
         <div class="form-group">
@@ -31,12 +31,13 @@
             <label for=""> Description </label>
             <textarea type="text" name="description" class="form-control">{{ $category->description }}</textarea>
         </div>
-
         <div class="form-group">
             <label for=""> Image </label>
             <input type="file" name="image" class="form-control">
+            @if($category->image)
+                <img src="{{ asset('uploads/'.$category->image) }}" height="50">
+            @endif
         </div>
-
         <div class="form-group">
             <label>Status</label>
                   <div class="form-check">
@@ -53,7 +54,6 @@
                    </div>
            </div>
         </div>
-
         <div>
            <button type="submit" class="btn btn-primary">Save</button>
         </div>

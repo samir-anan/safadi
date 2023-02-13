@@ -10,8 +10,9 @@
 
 @section('content')
 
-    <form action="{{ route('dashboard.categories.store') }}" method="post">
+    <form action="{{ route('dashboard.categories.store') }}" method="post" enctype="multipart/form-data">
         @csrf
+
         <div class="form-group">
             <label for=""> Category Name </label>
             <input type="text" name="name" class="form-control">
@@ -29,12 +30,11 @@
             <label for=""> Description </label>
             <textarea type="text" name="description" class="form-control"></textarea>
         </div>
-
         <div class="form-group">
             <label for=""> Image </label>
             <input type="file" name="image" class="form-control">
-        </div>
 
+        </div>
         <div class="form-group">
             <label>Status</label>
                   <div class="form-check">
@@ -51,12 +51,10 @@
                    </div>
            </div>
         </div>
-
         <div>
            <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
-
 @endsection
 
 

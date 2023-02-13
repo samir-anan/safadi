@@ -28,8 +28,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th></th>
             <th>id</th>
+            <th>image</th>
             <th>name</th>
             <th>parent</th>
             <th>created at</th>
@@ -40,8 +40,11 @@
     @if($categories->count())
         @foreach($categories as $category)
             <tr>
-                <td></td>
-                <td>{{  $category->id }} </td>
+                <td>{{  $category->id }}</td>
+                <td>
+
+                        <img src="{{ asset('uploads/'.$category->image) }}" height="50">
+                </td>
                 <td>{{  $category->name }} </td>
                 <td>{{  $category->parent_id }} </td>
                 <td>{{  $category->created_at }} </td>
