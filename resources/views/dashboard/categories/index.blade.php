@@ -10,12 +10,18 @@
 
 @section('content')
     <div class="mb-2">
-        <a href="{{ route('dashboard.categories.create' ) }}" class="btn  btn-primary">create</a>
+        <a href="{{ route('dashboard.categories.create') }}" class="btn  btn-primary">create</a>
     </div>
 
     @if(session()->has('success'))
         <div class="alert alert-success">
             {{ \Illuminate\Support\Facades\Session::get('success') }}
+        </div>
+    @endif
+
+    @if(session('info'))
+        <div class="alert alert-info">
+            {{ session()->get('info') }}
         </div>
     @endif
 
