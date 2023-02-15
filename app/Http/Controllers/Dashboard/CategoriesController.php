@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PHPUnit\Exception;
+use Illuminate\Support\Facades\Validator;
 
 class CategoriesController extends Controller
 {
@@ -17,24 +18,38 @@ class CategoriesController extends Controller
         return view('dashboard.categories.index', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
+        /* $request->validate(Category::rules(),[
+                'name.required' => 'This (:attribute) is required'
+            ]);
+        */
+
         $request->merge([
             'slug' => Str::slug($request->name)
         ]);  // $request->merge add new value not in request, never update exist value
-
         $data = $request->except('image');
-
         $data['image'] = $this->uploadImage($request);
-/*        if ($request->hasFile('image')){
-            $file = $request->file('image');
-            // $path = $file->store('uploads','public'); // store in "uploads" directory in default disk with random name
-            $path = $file->storeAs('uploads', $name,['disk' => 'public']); // other way
-            $data['image'] = $path;
-        }*/
-
+        /*        if ($request->hasFile('image')){
+                    $file = $request->file('image');
+                    // $path = $file->store('uploads','public'); // store in "uploads" directory in default disk with random name
+                    $path = $file->storeAs('uploads', $name,['disk' => 'public']); // other way
+                    $data['image'] = $path;
+                }*/
         $category = Category::create($data); // use mass assignment must assign fillable properties
         return redirect()->route('dashboard.categories.index')->with('success', 'Category Created');
+    }
+
+    protected function uploadImage(CategoryRequest $request)
+    {
+        if (!$request->hasFile('image')) {
+            return;
+        }
+        $file = $request->file('image');
+        $path = $file->store('categories', [
+            'disk' => 'uploads'
+        ]);
+        return $path;
     }
 
     public function create()
@@ -69,8 +84,11 @@ class CategoriesController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
+
+       // $request->validate(Category::rules($id));
+
         $request->merge([
             'slug' => Str::slug($request->name)
         ]);
@@ -80,9 +98,12 @@ class CategoriesController extends Controller
 
         $old_image = $category->image;
 
-        $data['image'] = $this->uploadImage($request);
+        $newImage = $this->uploadImage($request);
+        if ($newImage){
+            $data['image'] = $newImage;
+        }
 
-        if ($old_image && isset($category->image)){
+        if ($old_image && isset($newImage)) {
             Storage::disk('uploads')->delete($old_image);
         }
         $category->update($data);
@@ -94,22 +115,11 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        if ($category->image){
+        if ($category->image) {
             Storage::disk('uploads')->delete($category->image);
         }
         // Category::where('id', '=', $id)->delete($id);
         // Category::destroy($id);
         return redirect()->route('dashboard.categories.index')->with('success', 'Category Deleted');
-    }
-
-    protected function uploadImage(Request $request){
-        if (!$request->hasFile('image')){
-            return;
-        }
-        $file = $request->file('image');
-        $path = $file->store('categories',[
-            'disk' => 'uploads'
-        ]);
-        return $path;
     }
 }
