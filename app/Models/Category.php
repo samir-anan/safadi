@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Rules\filter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -23,6 +24,19 @@ class Category extends Model
                 'min:3',
                 'max:255',
                 Rule::unique('categories','name')->ignore($id),
+                'filter:abc',
+                function(
+                    $attribute, // attribute name
+                    $value,     // field value
+                    $fails      // callback function
+                ){
+                    if($value == 'allah'){
+                        $fails('This name is forbidden!');
+                    }
+                },
+               // new Filter('hani'),
+                new Filter(['hani','yasser']),
+
             ],
             'parent_id' => [
                 'nullable', 'int', /*'exist:categories,id'*/
