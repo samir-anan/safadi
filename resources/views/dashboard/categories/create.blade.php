@@ -28,24 +28,25 @@
         @csrf
 
         <div class="form-group">
-            <label for=""> Category Name </label>
-            <input type="text" name="name"
-            @class(['form-control', 'is-invalid' => $errors->has('name') ])
-            {{--  @error('name') is-invalid @enderror"--}}
-            >
-            {{--
-                @if($errors->has('name'))
-                    <div class="alert alert-danger">
-                        {{$errors->first('name')}}
-                    </div>
-                @endif
-            --}}
-            @error('name')
-            <div class="invalid-feedback">
-                {{$message}}
-            </div>
-            @enderror
 
+            <x-form.input name="name" value="{{$category->name ?? ''}}" type="text" label="Category Name"/>
+{{--            <input type="text" name="name"--}}
+{{--            @class(['form-control', 'is-invalid' => $errors->has('name') ])--}}
+{{--            --}}{{--  @error('name') is-invalid @enderror"--}}
+{{--            >--}}
+{{--            --}}{{----}}
+{{--                @if($errors->has('name'))--}}
+{{--                    <div class="alert alert-danger">--}}
+{{--                        {{$errors->first('name')}}--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+{{--            --}}
+{{--            @error('name')--}}
+{{--            <div class="invalid-feedback">--}}
+{{--                {{$message}}--}}
+{{--            </div>-
+            @enderror
+--}}
         </div>
         <div class="form-group">
             <label for=""> Parent </label>
@@ -72,7 +73,8 @@
             @enderror
         </div>
         <div class="form-group">
-            <label for=""> Image </label>
+    {{--            <label for=""> Image </label>--}}
+            <x-form.label id="image"> Image </x-form.label>
             <input type="file" name="image" class="form-control">
 
             @error('image')
@@ -83,6 +85,8 @@
         </div>
         <div class="form-group">
             <label>Status</label>
+{{--            <x-form.radio name="status" checked="{{$category->status ?? 'active'}}" value="active"--}}
+{{--                          options="['active'=>'active','archived'=>'archived']" />--}}
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="status" id="exampleRadios1" value="active">
                 <label class="form-check-label" for="exampleRadios1">

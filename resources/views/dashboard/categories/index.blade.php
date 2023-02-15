@@ -13,7 +13,9 @@
         <a href="{{ route('dashboard.categories.create') }}" class="btn  btn-primary">create</a>
     </div>
 
-    @if(session()->has('success'))
+{{--
+
+ @if(session()->has('success'))
         <div class="alert alert-success">
             {{ \Illuminate\Support\Facades\Session::get('success') }}
         </div>
@@ -24,6 +26,10 @@
             {{ session()->get('info') }}
         </div>
     @endif
+    --}}
+
+    <x-alert type="success"/>
+    <x-alert type="info"/>
 
 <table class="table">
     <thead>

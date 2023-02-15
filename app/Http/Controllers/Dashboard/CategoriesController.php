@@ -79,7 +79,7 @@ class CategoriesController extends Controller
             return view('dashboard.categories.edit', compact('category', 'categories'));
         } catch (Exception $e) {
             //abort(404);
-            return redirect()->route('categories.index')->with('info', 'Category Not Found');
+            return redirect()->route('dashboard.categories.index')->with('info', 'Category Not Found');
         }
 
     }
