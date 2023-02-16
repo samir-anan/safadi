@@ -199,9 +199,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
             </div>
+                <x-nav />
 
-
-           @include('layouts.partials.sidebar_menu',['active' => 'dashboard']) {{-- can bypass variables between views  --}}
+{{--           @include('layouts.partials.sidebar_menu',['active' => 'dashboard']) --}}{{-- can bypass variables between views  --}}
 
         </div>
         <!-- /.sidebar -->
