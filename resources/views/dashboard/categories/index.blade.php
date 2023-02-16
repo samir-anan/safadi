@@ -31,6 +31,19 @@
     <x-alert type="success"/>
     <x-alert type="info"/>
 
+    <form class="d-flex my-2 mx-6 justify-content-between " action="{{ URL::current() }}" method="get">
+        <label for="email" class="mr-sm-2">Search</label>
+        <x-form.input name="name" placeholder="Name" :value="request('name')" class="form-control mb-2 mx-2 mr-sm-3"></x-form.input>
+        <x-form.label name="Status" ></x-form.label>
+        <select type="text" name="status" class="form-control mb-2 mr-sm-2">
+            <option value="">All</option>
+            <option value="active" @selected(request('status') == 'active')>Active</option>
+            <option value="archived" @selected(request('status') == 'archived')>Archived</option>
+        </select>
+        <button type="submit" class="btn btn-primary mb-2">filter</button>
+    </form>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -75,7 +88,7 @@
     </tbody>
 
 </table>
-
+{{ $categories->withQueryString()->appends(['search'=>1])->links() }}
 @endsection
 
 
