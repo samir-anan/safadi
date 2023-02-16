@@ -15,7 +15,16 @@ class CategoriesController extends Controller
     public function index()
     {
         $request = request();
-        $query = Category::query();
+        $categories = Category::leftJoin('categories as parents','parents.id','=','categories.parent_id')
+            ->select([
+                'categories.*',
+                'parents.name as parent_name'
+            ])
+            ->filter($request->query())
+            //->latest('name') // built in local scope SORTING as parameter provided
+            //->orderBy('categories.name','ASC')
+            ->paginate();//
+/*        $query = Category::query();
 
         if ($name = $request->query('name')){
             $query->where('name','LIKE',"%{$name}%");
@@ -23,9 +32,13 @@ class CategoriesController extends Controller
         if($status = $request->query('status')){
             $query->where('status', '=',$status);
            // $query->whereStatus($status);
-        }
+        }*/
 
-       $categories = $query->paginate(2); // return Collection Object
+       // $categories = $query->paginate(2); // return Collection Object
+
+        // $categories = Category::active()->paginate(); // using local scope
+        // $categories = Category::status('archived')->paginate(); // using dynamic scope
+
         // $categories = Category::simplepaginate(1); // return next and previous
         return view('dashboard.categories.index', compact('categories'));
     }
