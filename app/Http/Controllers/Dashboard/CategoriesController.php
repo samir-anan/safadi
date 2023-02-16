@@ -15,7 +15,10 @@ class CategoriesController extends Controller
     public function index()
     {
         $request = request();
-        $categories = Category::filter($request->query())->paginate();//
+        $categories = Category::filter($request->query())
+            ->latest('name') // built in local scope SORTING as parameter provided
+            ->orderBy('name','ASC')
+            ->paginate();//
 /*        $query = Category::query();
 
         if ($name = $request->query('name')){
