@@ -26,6 +26,17 @@ class Category extends Model
         $builder->where('status','=', $status);
     }
 
+    public function scopeFilter(Builder $builder,$filters)
+    {
+        if ($filters['name'] ?? false){
+            $builder->where('name','LIKE',$filters['name']);
+        }
+        if($filters['status'] ?? false){
+            $builder->where('status', '=',$filters['status']);
+            // $query->whereStatus($status);
+        }
+    }
+
     public static function rules($id = 0)
     {
         return [
