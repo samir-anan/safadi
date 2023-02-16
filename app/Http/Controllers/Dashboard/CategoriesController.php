@@ -28,6 +28,7 @@ class CategoriesController extends Controller
        $categories = $query->paginate(2); // return Collection Object
 
         $categories = Category::active()->paginate(); // using local scope
+        $categories = Category::status('archived')->paginate(); // using dynamic scope
 
         // $categories = Category::simplepaginate(1); // return next and previous
         return view('dashboard.categories.index', compact('categories'));

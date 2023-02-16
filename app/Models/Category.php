@@ -21,6 +21,11 @@ class Category extends Model
         $builder->where('status','=','active');
     }
 
+    public function scopeStatus(Builder $builder,$status) // static local scope
+    {
+        $builder->where('status','=', $status);
+    }
+
     public static function rules($id = 0)
     {
         return [
