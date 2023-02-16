@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Rules\filter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
@@ -14,6 +15,11 @@ class Category extends Model
       'name', 'parent_id', 'image','description', 'status', 'slug'
     ]; // more secure
     // protected $guarded = [];
+
+    public function scopeActive(Builder $builder) // static local scope
+    {
+        $builder->where('status','=','active');
+    }
 
     public static function rules($id = 0)
     {
