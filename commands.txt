@@ -60,3 +60,5 @@ FileUpload:
 file systems :
     storage_path('app')     => storage/app
     public_path('uploads')  => public/uploads
+
+- php artisan vendor:publish --tag=laravel-pagination
