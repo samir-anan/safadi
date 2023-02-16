@@ -65,7 +65,7 @@
                         <img src="{{ asset('uploads/'.$category->image) }}" height="50">
                 </td>
                 <td>{{  $category->name }} </td>
-                <td>{{  $category->parent_id }} </td>
+                <td>{{  $category->parent_name ?? 'Parent Category' }} </td>
                 <td>{{  $category->created_at }} </td>
                 <td>
                     <a href="{{ route('dashboard.categories.edit',['category' => $category->id] ) }}" class="btn btn-sm btn-outline-success">Edit</a>

@@ -15,9 +15,14 @@ class CategoriesController extends Controller
     public function index()
     {
         $request = request();
-        $categories = Category::filter($request->query())
-            ->latest('name') // built in local scope SORTING as parameter provided
-            ->orderBy('name','ASC')
+        $categories = Category::leftJoin('categories as parents','parents.id','=','categories.parent_id')
+            ->select([
+                'categories.*',
+                'parents.name as parent_name'
+            ])
+            ->filter($request->query())
+            //->latest('name') // built in local scope SORTING as parameter provided
+            //->orderBy('categories.name','ASC')
             ->paginate();//
 /*        $query = Category::query();
 
