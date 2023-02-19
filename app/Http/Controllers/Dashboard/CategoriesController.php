@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -21,6 +22,8 @@ class CategoriesController extends Controller
                 'parents.name as parent_name'
             ])
             ->filter($request->query())
+            //->withTrashed() // to display soft deleted items
+            //->onlyTrashed() // to display only soft deleted items
             //->latest('name') // built in local scope SORTING as parameter provided
             //->orderBy('categories.name','ASC')
             ->paginate();//
@@ -133,18 +136,39 @@ class CategoriesController extends Controller
         }
         $category->update($data);
         // $category->fill($request->all())->save(); // fill will modify object no DB, save for DB change
-        return redirect()->route('dashboard.categories.index')->with('success', 'Category Created');
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category Updated');
     }
 
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        if ($category->image) {
-            Storage::disk('uploads')->delete($category->image);
-        }
         // Category::where('id', '=', $id)->delete($id);
         // Category::destroy($id);
         return redirect()->route('dashboard.categories.index')->with('success', 'Category Deleted');
+    }
+
+    public function trashed()
+    {
+        $categories = Category::onlyTrashed()->paginate();
+        return view('dashboard.categories.trashed',compact('categories'));
+    }
+   public function restore(Request $request, $id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        return redirect()->route('dashboard.categories.trashed',compact('category'))
+            ->with('success', 'Category Restored');
+    }
+
+    public function forceDelete(Request $request, $id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        if ($category->image) {
+            Storage::disk('uploads')->delete($category->image);
+        }
+        return redirect()->route('dashboard.categories.trashed',compact('category'))
+            ->with('success', 'Category Deleted Forever!');
     }
 }

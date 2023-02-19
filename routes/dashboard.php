@@ -26,5 +26,11 @@ Route::middleware(['auth'])
     ->prefix('dashboard')
     ->group(function (){
         Route::resource('/', DashboardController::class);
+
+        Route::get('/categories/trashed', [CategoriesController::class,'trashed'])->name('categories.trashed');
+        Route::put('/categories/{category}/restore', [CategoriesController::class,'restore'])->name('categories.restore');
+        Route::delete('/categories/{category}/force-delete', [CategoriesController::class,'forceDelete'])->name('categories.forceDelete');
         Route::resource('/categories', CategoriesController::class);
+
     });
+
