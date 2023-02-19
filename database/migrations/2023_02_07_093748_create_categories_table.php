@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description');
             $table->string('image')->nullable();
-            $table->enum('status',['active','archived']);
+            $table->enum('status',['active','archived'])->default('active');
            // $table->unsignedBigInteger('left_id');
            // $table->unsignedBigInteger('right_id');
             $table->timestamps();
