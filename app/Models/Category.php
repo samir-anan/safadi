@@ -6,15 +6,16 @@ use App\Rules\filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\Rule;
 
 class Category extends Model
 {
-    use HasFactory;
-    protected $fillable = [
-      'name', 'parent_id', 'image','description', 'status', 'slug'
-    ]; // more secure
-    // protected $guarded = [];
+    use HasFactory, softDeletes;
+//    protected $fillable = [
+//      'name', 'parent_id', 'image','description', 'status', 'slug'
+//    ]; // more secure
+     protected $guarded = [];
 
     public function scopeActive(Builder $builder) // static local scope
     {

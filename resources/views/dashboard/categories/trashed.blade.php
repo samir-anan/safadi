@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', $title = 'Categories' )
+@section('title', $title = 'Trashed Categories' )
 
 @section('breadcrumb')
     @parent
@@ -11,7 +11,7 @@
 @section('content')
     <div class="mb-2">
         <a href="{{ route('dashboard.categories.create') }}" class="btn  btn-primary mr-2">create</a>
-        <a href="{{ route('dashboard.categories.trashed') }}" class="btn  btn-dark">Trash</a>
+        <a href="{{ route('dashboard.categories.index') }}" class="btn  btn-dark">Back</a>
     </div>
 
 {{--
@@ -51,8 +51,7 @@
             <th>id</th>
             <th>image</th>
             <th>name</th>
-            <th>parent</th>
-            <th>created at</th>
+            <th>Deleted at</th>
             <th colspan="2" >Actions</th>
         </tr>
     </thead>
@@ -66,17 +65,19 @@
                         <img src="{{ asset('uploads/'.$category->image) }}" height="50">
                 </td>
                 <td>{{  $category->name }} </td>
-                <td>{{  $category->parent_name ?? 'Parent Category' }} </td>
-                <td>{{  $category->created_at }} </td>
+                <td>{{  $category->deleted_at }} </td>
                 <td>
-                    <a href="{{ route('dashboard.categories.edit',['category' => $category->id] ) }}" class="btn btn-sm btn-outline-success">Edit</a>
+                    <form method="post" action="{{ route('dashboard.categories.restore',$category->id) }}">
+                        @csrf
+                        @method('put')
+                        <button type="submit" class="btn btn-sm btn-outline-danger" >Restore</button>
+                    </form>
                 </td>
                 <td>
-                    <form method="post" action="{{ route('dashboard.categories.destroy',$category->id) }}">
+                    <form method="post" action="{{ route('dashboard.categories.forceDelete',$category->id) }}">
                         @csrf
                         @method('delete')
-                        <input type="hidden" name="_method" value="delete">
-                        <button type="submit" class="btn btn-sm btn-outline-danger" >Delete</button>
+                        <button type="submit" class="btn btn-sm btn-outline-danger" >Force Delete</button>
                     </form>
                 </td>
             </tr>
